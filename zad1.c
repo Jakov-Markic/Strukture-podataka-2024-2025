@@ -4,29 +4,73 @@ ucitati iz datoteke sve zapise. Na ekran ispisati ime, prezime, apsolutni i rela
 Napomena: Svaki redak datoteke sadrzi ime i prezime studenata, te broj bodova na kolokviju.
 relativan_br_bodova = br_bodova/max_br_bodova*100  */
 
-#define _CRT_SECURE_NO_WARNINGS // vs code bolji
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 
 #define ERROR_OPENING_FILE -1
 #define BUFFER_SIZE 1024
-
+#define STUDENTI_FILE "studenti.txt"
+#define MAX_BROJ_BODOVA 50
 typedef struct
 {
-	char ime[30];
-	char prezime[30];
+	char *ime;
+	char *prezime;
 	int bodovi;
 
 
 }Student;
 
 int count_rows(char* filename);
+void get_student_data(Student * s, char * filename);
+void print_student(Student * s, char * filename, int rows);
 
 int main() {
+
+	int row_count = count_rows(STUDENTI_FILE);
+	Student * s = (Student *) malloc (row_count * sizeof(Student)); 
+	get_student_data(s, &STUDENTI_FILE);
+	printf("Ispis %d studenata i njegovih podataka:\n\n", row_count);
+	print_student(s, STUDENTI_FILE, row_count);
 
 	return 0;
 }
 
+void print_student(Student * s, char * filename, int rows){
+	int i = 0;
+	for(i; i < rows; i++){
+		printf("%s %s \n", s[i].ime, s[i].prezime);
+		printf("\tApsolutan broj bodova: %d\n", s[i].bodovi);
+		printf("\tRelativan broj bodova %f\n\n", (float) (s[i].bodovi / MAX_BROJ_BODOVA) * 100);
+	}
+}
+
+void get_student_data(Student * s, char * filename){
+	FILE* fp = NULL;
+	char buffer[BUFFER_SIZE];
+	int i = 0;
+	fp = fopen(filename, "r");
+
+	if (fp == NULL) {
+		printf("ERROR opening file\n");
+		return ERROR_OPENING_FILE;
+	}
+
+	while (!feof(fp))
+	{
+		fgets(buffer, BUFFER_SIZE, fp);
+		if (buffer[0] != ' ' && buffer[0] != '\n') //provjera ako postoji prazan redak
+		{
+			//Student ima jedno ime a ostalo je prezime
+			sscanf(buffer, "%s %s", s[i].ime, s[i].prezime);
+			++i;
+		}
+		
+	}
+	
+
+	fclose(fp);
+}
 
 int count_rows(char* filename) {
 	FILE* fp = NULL;
