@@ -4,7 +4,7 @@ ucitati iz datoteke sve zapise. Na ekran ispisati ime, prezime, apsolutni i rela
 Napomena: Svaki redak datoteke sadrzi ime i prezime studenata, te broj bodova na kolokviju.
 relativan_br_bodova = br_bodova/max_br_bodova*100  */
 
-#define _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS // vs code bolji
 #include <stdio.h>
 #include <stdlib.h>
 
