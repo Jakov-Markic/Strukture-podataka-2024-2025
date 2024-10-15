@@ -41,7 +41,7 @@ void print_student(Student * s, char * filename, int rows){
 	for(i; i < rows; i++){
 		printf("%s %s \n", s[i].ime, s[i].prezime);
 		printf("\tApsolutan broj bodova: %d\n", s[i].bodovi);
-		printf("\tRelativan broj bodova %f\n\n",  ((float) s[i].bodovi / MAX_BROJ_BODOVA) * 100);
+		printf("\tRelativan broj bodova %f %%\n\n", ((float) s[i].bodovi / MAX_BROJ_BODOVA) * 100);
 	}
 }
 
@@ -61,10 +61,10 @@ void get_student_data(Student * s, char * filename){
 		fgets(buffer, BUFFER_SIZE, fp);
 		if (buffer[0] != ' ' && buffer[0] != '\n') //provjera ako postoji prazan redak
 		{
-			//Student ima jedno ime i jedno prezime
+			//Student ima jedno ime, a ostalo je prezime
 			s[i].ime = (char *) malloc (50 * sizeof(char));
-			s[i].prezime = (char *) malloc (50 * sizeof(char));
-			sscanf(buffer, "%s %s %d", s[i].ime, s[i].prezime, &s[i].bodovi);
+			s[i].prezime = (char *) malloc (100 * sizeof(char));
+			sscanf(buffer, "%s %[^0-9] %d", s[i].ime, s[i].prezime, &s[i].bodovi);
 			++i;
 		}
 		
@@ -89,6 +89,7 @@ int count_rows(char* filename) {
 	{
 		fgets(buffer, BUFFER_SIZE, fp);
 		//sscanf()
+		if (buffer[0] != ' ' && buffer[0] != '\n') // provjera ako ima prazan red
 		++count;
 	}
 
