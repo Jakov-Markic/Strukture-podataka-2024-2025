@@ -33,7 +33,7 @@ int main() {
 	printf("Ispis %d studenata i njegovih podataka:\n\n", row_count);
 	print_student(s, STUDENTI_FILE, row_count);
 
-	return 0;
+	return 0;{}
 }
 
 void print_student(Student* s, char* filename, int rows) {
