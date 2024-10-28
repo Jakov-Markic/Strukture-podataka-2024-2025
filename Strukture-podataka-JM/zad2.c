@@ -16,23 +16,27 @@ U zadatku se ne smiju koristiti globalne varijable.
 #define NAME_LENGHT 30
 #define SURNAME_LENGHT 50
 
-typedef struct Osoba
+struct _Osoba;
+typedef struct _Osoba * Position;
+
+typedef struct _Osoba
 {
     char * ime;
     char * prezime;
     int godina_rodjenja;
 
-    struct Osoba *next;
+    Position next;
 }Osoba;
 
-Osoba * create_Person(char * ime, char * prezime, int godina);
-int newPerson_Beginning(char * ime, char * prezime, int godina, Osoba * Person);
-int newPerson_End(char * ime, char * prezime, int godina, Osoba * Person);
-Osoba * findPerson_bySurname(char * prezime, Osoba * Person);
-Osoba * findPrevious(char * prezime, Osoba * Preson);
-void deletePerson(char * prezime, Osoba * Person);
+Position create_Person(char * ime, char * prezime, int godina);
+int newPerson_Beginning(char * ime, char * prezime, int godina, Position Person);
+int newPerson_End(char * ime, char * prezime, int godina, Position Person);
+Position findPerson_bySurname(char * prezime, Position Person);
+Position findPrevious(char * prezime, Position Preson);
 
-void printPerson(Osoba * Person);
+void deletePerson_BySurname(char * prezime, Position Person);
+
+void printPerson(Position Person);
 
 int main(){
 
@@ -52,12 +56,16 @@ int main(){
     }
 
     newPerson_End("Ivo", "Ivic", 1999, &Head);
+
+    printPerson(Head.next);
+
+    //checkOsoba ako zelimo nesto raditi s tim podacima
     checkOsoba = findPerson_bySurname("Antic", Head.next);
     
     checkOsoba = findPerson_bySurname("Antonovic", Head.next);
 
-    deletePerson("Ivic", &Head);
-    deletePerson("Antonovic", &Head);
+    deletePerson_BySurname("Ivic", &Head);
+    deletePerson_BySurname("Antonovic", &Head);
 
     printPerson(Head.next);
 
@@ -66,9 +74,8 @@ int main(){
     return 0;
 }
 
-Osoba * create_Person(char * ime, char * prezime, int godina){
-    Osoba * q;
-    q = (Osoba *) malloc (sizeof(Osoba));
+Position create_Person(char * ime, char * prezime, int godina){
+    Position q = (Position) malloc (sizeof(Osoba));
     if(q == NULL){
         printf("\nNeuspjesna kreacija osobe.\n");
         return NULL;
@@ -81,94 +88,80 @@ Osoba * create_Person(char * ime, char * prezime, int godina){
     q->ime = ime;
     
     q->prezime = (char *)malloc(SURNAME_LENGHT * sizeof(char));
-    if(q->ime == NULL){
+    if(q->prezime == NULL){
         printf("\nNuspjesna upis prezimena.\n");
         return NULL;
     }
     q->prezime = prezime;
 
     q->godina_rodjenja = godina;
-    if(q->ime == NULL){
-        printf("\nNuspjesna upis godine.\n");
-        return NULL;
-    }
+
     return q;
 }
 
-int newPerson_Beginning(char * ime, char * prezime, int godina, Osoba * Person){
+int newPerson_Beginning(char * ime, char * prezime, int godina, Position Person){
 
-    Osoba * q = create_Person(ime, prezime, godina);
+    Position q = create_Person(ime, prezime, godina);
     if(q == NULL){
         return ERROR_CREATING_PERSON;
     }
-    
 
     q->next = Person->next;
     Person->next = q;
 
     return 0;
 }
-int newPerson_End(char * ime, char * prezime, int godina, Osoba * Person){
-    Osoba * q = create_Person(ime, prezime, godina);
+int newPerson_End(char * ime, char * prezime, int godina, Position Person){
+    Position q = create_Person(ime, prezime, godina);
     if(q == NULL){
         return ERROR_CREATING_PERSON;
     }
-    Osoba * temp = Person; // fix by removing temp
-    while (temp->next != NULL)
+
+    while (Person->next != NULL)
     {
-        temp = temp->next;
+        Person = Person->next;
     }
 
-    q->next = temp->next;
-    temp->next = q;
+    q->next = Person->next;
+    Person->next = q;
     
 }
 
-Osoba * findPerson_bySurname (char * prezime, Osoba * Person){
-    Osoba * p = Person;
-    while (p != NULL && strcmp(p->prezime, prezime) != 0)
-        p = p->next;
-    if (p != NULL)
-        printf("Osoba s %s prezimenom postoji\n", prezime);
+Position findPerson_bySurname (char * prezime, Position Person){
+    while (Person != NULL && strcmp(Person->prezime, prezime) != 0)
+        Person = Person->next;
+    if (Person != NULL)
+        printf("\nOsoba s %s prezimenom postoji\n", prezime);
     else
-        printf("Osoba s %s prezimenom ne postoji  :( \n", prezime);
-    return p;
+        printf("\nOsoba s %s prezimenom ne postoji  :( \n", prezime);
+    return Person;
     
     
 }
-void deletePerson(char * prezime, Osoba * Person){
-    Osoba * p = findPerson_bySurname(prezime, Person);
+void deletePerson_BySurname(char * prezime, Position Person){
+    Position p = findPerson_bySurname(prezime, Person);
     if(p == NULL){
-        printf("Osoba s %s prezimenom nema za izbrisati\n", prezime);
+        printf("\nOsoba s %s prezimenom nema za izbrisati\n", prezime);
         return;
     }
-    Osoba * q = Person;
-    while (q->next != p)
+    while (Person->next != p)
     {
-        q = q->next;
+        Person = Person->next;
     }
 
-    q->next = p->next;
-    /* free(p->ime);
-    free(p->prezime);
-    free(p->next); */
+    Person->next = p->next;
     free(p);
-
-    
-    
-
 
     return;
 }
 
-void printPerson(Osoba * Person){
+void printPerson(Position Person){
 
-    Osoba * p = Person;
-    while(p != NULL){
-        printf("Ime: %s\n", p->ime);
-        printf("Prezime: %s\n", p->prezime);
-        printf("Godine rodjenja: %d\n\n", p->godina_rodjenja);
+    while(Person != NULL){
+        printf("\nIme: %s\n", Person->ime);
+        printf("Prezime: %s\n", Person->prezime);
+        printf("Godine rodjenja: %d\n", Person->godina_rodjenja);
 
-        p = p->next;
+        Person = Person->next;
     }
 }
