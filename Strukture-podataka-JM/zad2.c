@@ -55,7 +55,10 @@ int main(){
         printf("Problem sa stvaranjem osobe\n");
     }
 
-    newPerson_End("Ivo", "Ivic", 1999, &Head);
+   checkError = newPerson_End("Ivo", "Ivic", 1999, &Head);
+    if(checkError == ERROR_CREATING_PERSON){
+        printf("Problem sa stvaranjem osobe\n");
+    }
 
     printPerson(Head.next);
 
