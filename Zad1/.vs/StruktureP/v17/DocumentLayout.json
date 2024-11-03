@@ -1,0 +1,54 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\User\\Desktop\\Strukture-podataka-2024-2025\\Zad1\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F317958E-6E09-4F9D-A5B8-09FFDC142BD1}|Zad1\\Zad1.vcxproj|C:\\Users\\User\\Desktop\\Strukture-podataka-2024-2025\\Zad1\\Zad1\\Zad1.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{F317958E-6E09-4F9D-A5B8-09FFDC142BD1}|Zad1\\Zad1.vcxproj|solutionrelative:Zad1\\Zad1.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BA082CCA-E63E-4398-A4FF-22366A8C3DEE}|Zad2\\Zad2.vcxproj|C:\\Users\\User\\Desktop\\Strukture-podataka-2024-2025\\Zad1\\Zad2\\zad2.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{BA082CCA-E63E-4398-A4FF-22366A8C3DEE}|Zad2\\Zad2.vcxproj|solutionrelative:Zad2\\zad2.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "zad2.c",
+              "DocumentMoniker": "C:\\Users\\User\\Desktop\\Strukture-podataka-2024-2025\\Zad1\\Zad2\\zad2.c",
+              "RelativeDocumentMoniker": "Zad2\\zad2.c",
+              "ToolTip": "C:\\Users\\User\\Desktop\\Strukture-podataka-2024-2025\\Zad1\\Zad2\\zad2.c",
+              "RelativeToolTip": "Zad2\\zad2.c",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAAAAgAAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-11-03T18:50:58.047Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Zad1.c",
+              "DocumentMoniker": "C:\\Users\\User\\Desktop\\Strukture-podataka-2024-2025\\Zad1\\Zad1\\Zad1.c",
+              "RelativeDocumentMoniker": "Zad1\\Zad1.c",
+              "ToolTip": "C:\\Users\\User\\Desktop\\Strukture-podataka-2024-2025\\Zad1\\Zad1\\Zad1.c",
+              "RelativeToolTip": "Zad1\\Zad1.c",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-11-03T18:50:23.359Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
