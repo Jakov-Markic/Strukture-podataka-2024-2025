@@ -22,6 +22,7 @@ E. cita listu iz datoteke.
 #include <string.h>
 
 #define ERROR_CREATING_PERSON 10
+#define ERROR_FIND_PERSON 15
 #define NAME_LENGHT 30
 #define SURNAME_LENGHT 50
 
@@ -43,11 +44,13 @@ int newPerson_End(char* ime, char* prezime, int godina, Position Person);
 Position findPerson_bySurname(char* prezime, Position Person);
 void deletePerson_BySurname(char* prezime, Position Person);
 
-int newPerson_BeforeP(char * osobaIme, char * ime, char * prezime, int godina, Position Person);
-int newPerson_AfterP(char * osobaIme, char* ime, char* prezime, int godina, Position Person);
+int newPerson_BeforeP(char * findIme, char * ime, char * prezime, int godina, Position Person);
+int newPerson_AfterP(char * findIme, char* ime, char* prezime, int godina, Position Person);
 void sortPerson(Position Person);
 void readFile_Person(Position Person);
 void writeFile_Person(Position Person);
+
+Position findPreviousPerson_bySurname(char * prezime, Position Person);
 
 void printPerson(Position Person);
 
@@ -83,6 +86,12 @@ int main() {
     deletePerson_BySurname("Ivic", Head.next);
     deletePerson_BySurname("Antonovic", Head.next);
 
+    printPerson(Head.next);
+
+    newPerson_AfterP("Antic", "Antun", "Antunovic", 1995, &Head);
+    printPerson(Head.next);
+
+    newPerson_BeforeP("Antic", "Stipe", "Stipic", 1988, &Head);
     printPerson(Head.next);
 
 
@@ -143,11 +152,41 @@ int newPerson_End(char* ime, char* prezime, int godina, Position Person) {
 
 }
 
-int newPerson_BeforeP(char* osobaIme, char* ime, char* prezime, int godina, Position Person) {
+int newPerson_BeforeP(char* findIme, char* ime, char* prezime, int godina, Position Person) {
+    Person = findPreviousPerson_bySurname(findIme, Person);
 
+    if (Person == NULL) {
+        return ERROR_FIND_PERSON;
+    }
+
+    Position q = create_Person(ime, prezime, godina);
+    if (q == NULL) {
+        return ERROR_CREATING_PERSON;
+    }
+    q->next = Person->next;
+    Person->next = q;
 }
 
-int newPerson_AfterP(char* osobaIme, char* ime, char* prezime, int godina, Position Person) {
+Position findPreviousPerson_bySurname(char* prezime, Position Person) {
+    while (Person != NULL && strcmp(Person->next->prezime, prezime) != 0)
+        Person = Person->next;
+    if (Person == NULL)
+        printf("\nOsoba s %s prezimenom ne postoji  :( \n", prezime);
+
+    return Person;
+}
+
+int newPerson_AfterP(char* findIme, char* ime, char* prezime, int godina, Position Person) {
+    Person = findPerson_bySurname(findIme, Person->next);
+    if (Person == NULL) {
+        return ERROR_FIND_PERSON;
+    }
+    Position q = create_Person(ime, prezime, godina);
+    if (q == NULL) {
+        return ERROR_CREATING_PERSON;
+    }
+    q->next = Person->next;
+    Person->next = q;
 
 }
 
@@ -191,3 +230,6 @@ void printPerson(Position Person) {
         Person = Person->next;
     }
 }
+void sortPerson(Position Person) {}
+void readFile_Person(Position Person) {}
+void writeFile_Person(Position Person) {}

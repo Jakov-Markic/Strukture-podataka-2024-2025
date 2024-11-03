@@ -1,0 +1,5 @@
+﻿  zad3.c
+C:\Users\User\Documents\Fakultet\Strukture-podataka-2024-2025\Zad1\Zad3\zad3.c(153,1): warning C4715: 'newPerson_End': not all control paths return a value
+C:\Users\User\Documents\Fakultet\Strukture-podataka-2024-2025\Zad1\Zad3\zad3.c(191,1): warning C4715: 'newPerson_AfterP': not all control paths return a value
+C:\Users\User\Documents\Fakultet\Strukture-podataka-2024-2025\Zad1\Zad3\zad3.c(168,1): warning C4715: 'newPerson_BeforeP': not all control paths return a value
+  Zad3.vcxproj -> C:\Users\User\Documents\Fakultet\Strukture-podataka-2024-2025\Zad1\x64\Debug\Zad3.exe
