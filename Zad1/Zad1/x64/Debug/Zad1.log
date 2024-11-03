@@ -1,5 +1,5 @@
-﻿  Zad1.c
-C:\Users\User\Desktop\Strukture-podataka-2024-2025\Zad1\Zad1\Zad1.c(32,22): warning C4047: 'function': 'char *' differs in levels of indirection from 'char (*)[13]'
-C:\Users\User\Desktop\Strukture-podataka-2024-2025\Zad1\Zad1\Zad1.c(32,22): warning C4024: 'get_student_data': different types for formal and actual parameter 2
-C:\Users\User\Desktop\Strukture-podataka-2024-2025\Zad1\Zad1\Zad1.c(56,3): warning C4098: 'get_student_data': 'void' function returning a value
-  Zad1.vcxproj -> C:\Users\User\Desktop\Strukture-podataka-2024-2025\Zad1\x64\Debug\Zad1.exe
+﻿  zad1.c
+C:\Users\User\Documents\Fakultet\Strukture-podataka-2024-2025\Zad1\Zad1\zad1.c(35,22): warning C4047: 'function': 'char *' differs in levels of indirection from 'char (*)[13]'
+C:\Users\User\Documents\Fakultet\Strukture-podataka-2024-2025\Zad1\Zad1\zad1.c(35,22): warning C4024: 'get_student_data': different types for formal and actual parameter 2
+C:\Users\User\Documents\Fakultet\Strukture-podataka-2024-2025\Zad1\Zad1\zad1.c(59,3): warning C4098: 'get_student_data': 'void' function returning a value
+  Zad1.vcxproj -> C:\Users\User\Documents\Fakultet\Strukture-podataka-2024-2025\Zad1\x64\Debug\Zad1.exe

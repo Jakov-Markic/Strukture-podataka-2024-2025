@@ -29,6 +29,9 @@ int main() {
 
 	int row_count = count_rows(STUDENTI_FILE);
 	Student* s = (Student*)malloc(row_count * sizeof(Student));
+	if (s == NULL) {
+		printf("ERROR creating struct\n");
+	}
 	get_student_data(s, &STUDENTI_FILE);
 	printf("Ispis %d studenata i njegovih podataka:\n\n", row_count);
 	print_student(s, STUDENTI_FILE, row_count);
@@ -63,7 +66,13 @@ void get_student_data(Student* s, char* filename) {
 		{
 			//Student ima jedno ime, a ostalo je prezime
 			s[i].ime = (char*)malloc(50 * sizeof(char));
+			if (s[i].ime == NULL) {
+				printf("ERROR creating name for %d person\n", i);
+			}
 			s[i].prezime = (char*)malloc(100 * sizeof(char));
+			if (s[i].prezime == NULL) {
+				printf("ERROR creating name for %d person\n", i);
+			}
 			sscanf(buffer, "%s %[^0-9] %d", s[i].ime, s[i].prezime, &s[i].bodovi);
 			++i;
 		}
