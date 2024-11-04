@@ -293,16 +293,18 @@ Position readFile_Person(char * filename) {
     FILE* fp = NULL;
 
     Position q = NULL;
-    Position first = NULL;
     Position temp = NULL;
+    Position tempHead = NULL;
+    Position tempPrevious = NULL;
 
     char buffer[BUFFER_SIZE];
     char ime[NAME_LENGHT];
     char prezime[SURNAME_LENGHT];
     int godina;
 
-    int check = 0;
+    int checkInput = 0;
     int isFirstCreated = 1;
+    int isBefore = 0;
 
     fp = fopen(filename, "r");
     if (fp == NULL) {
@@ -313,23 +315,39 @@ Position readFile_Person(char * filename) {
     while (!feof(fp)) {
         fgets(buffer, BUFFER_SIZE, fp);
         if (!checkifLineEmpty(buffer)) {
-            check = sscanf(buffer, "%s %[^0-9] %d", ime, prezime, &godina);
+            checkInput = sscanf(buffer, "%s %[^0-9] %d", ime, prezime, &godina);
 
-            if (check != 3) {
+            if (checkInput != 3) {
                 printf("ERROR reading file");
                 return NULL;
             }
-            q = create_Person(ime, prezime, godina);
             if (isFirstCreated) {
-                first = q;
-                temp = first;
+                q = create_Person(ime, prezime, godina);
+                tempHead = q;
                 isFirstCreated = 0;
+                tempPrevious = q;
             }
-            temp->next = q;
-            temp = temp->next;
+            else {
+                temp = tempHead;
+                isBefore = 0;
+                while (!isBefore && temp != NULL) {
+                    if (strcmp(prezime, temp->prezime) < 0) {
+                        q = create_Person(ime, prezime, godina);
+                        q->next = temp;
+                        if (temp == tempHead)
+                            tempHead = q;
+                        isBefore = 1;
+                    }
+                    temp = temp->next;
+                    
+                }
+                if (!isBefore) {
+                    newPerson_End(ime, prezime, godina, tempHead);
+                }
+            }
         }
     }
-    return first;
+    return tempHead;
 }
 int checkifLineEmpty(char * line)
 {
