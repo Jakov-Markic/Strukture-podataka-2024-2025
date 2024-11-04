@@ -46,18 +46,18 @@ typedef struct _Osoba
 Position create_Person(char* ime, char* prezime, int godina);
 int newPerson_Beginning(char* ime, char* prezime, int godina, Position Person);
 int newPerson_End(char* ime, char* prezime, int godina, Position Person);
+int newPerson_BeforeP(char* findIme, char* ime, char* prezime, int godina, Position Person);
+int newPerson_AfterP(char* findIme, char* ime, char* prezime, int godina, Position Person);
+
 Position findPerson_bySurname(char* prezime, Position Person);
+Position findPreviousPerson_bySurname(char* prezime, Position Person);
 void deletePerson_BySurname(char* prezime, Position Person);
 
-int newPerson_BeforeP(char * findIme, char * ime, char * prezime, int godina, Position Person);
-int newPerson_AfterP(char * findIme, char* ime, char* prezime, int godina, Position Person);
 void sortPerson_bySurname(Position Person);
 
 Position readFile_Person(char * filename);
 int checkifLineEmpty(char* line);
 int writeFile_Person(Position Person);
-
-Position findPreviousPerson_bySurname(char * prezime, Position Person);
 
 void printPerson(Position Person);
 void freePerson(Position Person);
