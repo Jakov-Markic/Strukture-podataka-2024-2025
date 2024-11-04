@@ -362,6 +362,7 @@ Position readFile_Person(char * filename) {
             }
         }
     }
+    fclose(fp);
     return tempHead;
 }
 int checkifLineEmpty(char * line)
@@ -390,4 +391,6 @@ int writeFile_Person(Position Person) {
         fprintf_s(fp, "%-10s\t%-20s\t%d\n", Person->ime, Person->prezime, Person->godina_rodjenja);
         Person = Person->next;
     }
+    fclose(fp);
+    return 0;
 }
