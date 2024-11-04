@@ -271,7 +271,7 @@ void sortPerson_bySurname(Position Person) {
         temp3 = Person->next->next;
         temp = NULL;
         while (temp2->next != end) {
-            if (strcmp(temp2->prezime, temp3->prezime) > 0) {
+            if (strcmp(temp2->prezime, temp3->prezime) >= 0) {
                 temp = temp2;
                 temp2->next = temp3->next;
                 temp3->next = temp;
@@ -344,7 +344,7 @@ Position readFile_Person(char * filename) {
                 temp = tempHead;
                 isBefore = 0;
                 while (!isBefore && temp != NULL) {
-                    if (strcmp(prezime, temp->prezime) < 0) {
+                    if (strcmp(prezime, temp->prezime) <= 0) {
                         q = create_Person(ime, prezime, godina);
                         q->next = temp;
                         if (temp == tempHead)
