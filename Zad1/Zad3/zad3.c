@@ -310,7 +310,6 @@ Position readFile_Person(char * filename) {
     Position q = NULL;
     Position temp = NULL;
     Position tempHead = NULL;
-    Position tempPrevious = NULL;
 
     char buffer[BUFFER_SIZE];
     char ime[NAME_LENGHT];
@@ -340,7 +339,6 @@ Position readFile_Person(char * filename) {
                 q = create_Person(ime, prezime, godina);
                 tempHead = q;
                 isFirstCreated = 0;
-                tempPrevious = q;
             }
             else {
                 temp = tempHead;
