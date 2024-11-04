@@ -60,6 +60,7 @@ int writeFile_Person(Position Person);
 Position findPreviousPerson_bySurname(char * prezime, Position Person);
 
 void printPerson(Position Person);
+void freePerson(Position Person);
 
 int main() {
 
@@ -110,6 +111,8 @@ int main() {
     printf("\nSortiranje liste\n");
     sortPerson_bySurname(&Head);
     printPerson(Head.next);
+
+    freePerson(&Head);
 
     writeFile_Person(Head.next);
     Head.next = readFile_Person("studenti.txt");
@@ -288,6 +291,18 @@ void sortPerson_bySurname(Position Person) {
         end = temp2;
     }
 
+}
+void freePerson(Position Person) {
+    Position temp = Person->next;
+    Position deleteMe = NULL;
+    while (temp != NULL) {
+        deleteMe = temp;
+        temp = temp->next;
+        free(deleteMe->ime);
+        free(deleteMe->prezime);
+        free(deleteMe);
+    }
+        Person->next = NULL;
 }
 Position readFile_Person(char * filename) {
     FILE* fp = NULL;
