@@ -44,23 +44,24 @@ typedef struct _Osoba
 }Osoba;
 
 Position create_Person(char* ime, char* prezime, int godina);
-int newPerson_Beginning(char* ime, char* prezime, int godina, Position Person);
-int newPerson_End(char* ime, char* prezime, int godina, Position Person);
-int newPerson_BeforeP(char* findIme, char* ime, char* prezime, int godina, Position Person);
-int newPerson_AfterP(char* findIme, char* ime, char* prezime, int godina, Position Person);
+int newPerson_Beginning(char* ime, char* prezime, int godina, Position Person); //2a
+int newPerson_End(char* ime, char* prezime, int godina, Position Person); //2c
+int newPerson_BeforeP(char* findIme, char* ime, char* prezime, int godina, Position Person); //3b
+int newPerson_AfterP(char* findIme, char* ime, char* prezime, int godina, Position Person); //3a
 
-Position findPerson_bySurname(char* prezime, Position Person);
+Position findPerson_bySurname(char* prezime, Position Person); //2d
 Position findPreviousPerson_bySurname(char* prezime, Position Person);
-void deletePerson_BySurname(char* prezime, Position Person);
+void deletePerson_BySurname(char* prezime, Position Person); //2e
 
-void sortPerson_bySurname(Position Person);
+void sortPerson_bySurname(Position Person); //3c
 
-Position readFile_Person(char * filename);
+Position readFile_Person(char* filename); //3e
+Position readFileSorted_Person(char * filename);
 int checkifLineEmpty(char* line);
-int writeFile_Person(Position Person);
+int writeFile_Person(Position Person); //3d
 
-void printPerson(Position Person);
-void freePerson(Position Person);
+void printPerson(Position Person); //2b
+void freeAllPerson(Position Person);
 
 int main() {
 
@@ -112,12 +113,18 @@ int main() {
     sortPerson_bySurname(&Head);
     printPerson(Head.next);
 
-    freePerson(&Head);
+    freeAllPerson(&Head);
 
     writeFile_Person(Head.next);
-    Head.next = readFile_Person("studenti.txt");
+    Head.next = readFileSorted_Person("studenti.txt");
     printf("\n------------------------\n");
     printPerson(Head.next);
+
+    freeAllPerson(&Head);
+    printf("\n------------------------\n");
+    Head.next = readFile_Person("studenti.txt");
+    printPerson(Head.next);
+    freeAllPerson(&Head);
 
 
 
@@ -292,7 +299,7 @@ void sortPerson_bySurname(Position Person) {
     }
 
 }
-void freePerson(Position Person) {
+void freeAllPerson(Position Person) {
     Position temp = Person->next;
     Position deleteMe = NULL;
     while (temp != NULL) {
@@ -304,12 +311,57 @@ void freePerson(Position Person) {
     }
         Person->next = NULL;
 }
-Position readFile_Person(char * filename) {
+Position readFile_Person(char* filename) {
+    FILE* fp = NULL;
+
+    Position q = NULL;
+    Osoba Head;
+    Head.next = NULL;
+
+    char buffer[BUFFER_SIZE];
+    char ime[NAME_LENGHT];
+    char prezime[SURNAME_LENGHT];
+    int godina;
+
+    int checkInput = 0;
+    int isFirstCreated = 1;
+
+    fp = fopen(filename, "r");
+    if (fp == NULL) {
+        printf("ERROR opening a file\n");
+        return NULL;
+    }
+
+    while (!feof(fp)) {
+        fgets(buffer, BUFFER_SIZE, fp);
+        if (!checkifLineEmpty(buffer)) {
+            checkInput = sscanf(buffer, "%s %[^0-9] %d", ime, prezime, &godina);
+
+            if (checkInput != 3) {
+                printf("ERROR reading file");
+                return NULL;
+            }
+            if (isFirstCreated) {
+                q = create_Person(ime, prezime, godina);
+                Head.next = q;
+                isFirstCreated = 0;
+            }
+            else {
+                newPerson_End(ime, prezime, godina, &Head);
+            }
+        }
+    }
+    fclose(fp);
+    return Head.next;
+}
+Position readFileSorted_Person(char * filename) {
     FILE* fp = NULL;
 
     Position q = NULL;
     Position temp = NULL;
-    Position tempHead = NULL;
+    Position tempPrevious = NULL;
+    Osoba Head;
+    Head.next = NULL;
 
     char buffer[BUFFER_SIZE];
     char ime[NAME_LENGHT];
@@ -337,31 +389,32 @@ Position readFile_Person(char * filename) {
             }
             if (isFirstCreated) {
                 q = create_Person(ime, prezime, godina);
-                tempHead = q;
+                Head.next = q;
                 isFirstCreated = 0;
             }
             else {
-                temp = tempHead;
+                temp = Head.next;
+                tempPrevious = &Head;
                 isBefore = 0;
                 while (!isBefore && temp != NULL) {
-                    if (strcmp(prezime, temp->prezime) <= 0) {
+                    if (strcmp(prezime, temp->prezime) < 1) {
                         q = create_Person(ime, prezime, godina);
                         q->next = temp;
-                        if (temp == tempHead)
-                            tempHead = q;
+                        tempPrevious->next = q;
                         isBefore = 1;
                     }
                     temp = temp->next;
+                    tempPrevious = tempPrevious->next;
                     
                 }
                 if (!isBefore) {
-                    newPerson_End(ime, prezime, godina, tempHead);
+                    newPerson_End(ime, prezime, godina, &Head);
                 }
             }
         }
     }
     fclose(fp);
-    return tempHead;
+    return Head.next;
 }
 int checkifLineEmpty(char * line)
 {
