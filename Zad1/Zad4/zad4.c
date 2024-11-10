@@ -24,16 +24,17 @@ typedef struct _Polynomial
 }Polynom;
 
 int readFile(char *, Position, int);
-
 Position createPolynom(int, int);
+void sortInput(Position, Position);
+void addPolynomAfter(Position, Position);
+
 int PolynomMultiplication(Position, Position, Position);
 int PolynomAddition(Position, Position, Position);
 
-void addPolynomAfter(Position, Position);
-
 void printPolynom(Position);
 void checkErrorPrint(int);
-void deletePolynom(Position);
+void deleteAllPolynom(Position);
+void deleteNextPolynom(Position);
 
 int main() {
 
@@ -58,20 +59,19 @@ int main() {
 	printf("\nZbrajanje polinoma\n");
 	printPolynom(HeadResult.next);
 
-	deletePolynom(&HeadResult);
+	deleteAllPolynom(&HeadResult);
 
 	checker = PolynomMultiplication(Head1.next, Head2.next, &HeadResult);
 	checkErrorPrint(checker);
 	printf("\nMnozenje polinoma\n");
 	printPolynom(HeadResult.next);
 
-	deletePolynom(&HeadResult);
-	deletePolynom(&Head1);
-	deletePolynom(&Head2);
+	deleteAllPolynom(&HeadResult);
+	deleteAllPolynom(&Head1);
+	deleteAllPolynom(&Head2);
 
 	return 0;
 }
-
 int readFile(char * filename, Position Polinom, int polinomRow){
 
 	FILE * fp;
@@ -88,13 +88,13 @@ int readFile(char * filename, Position Polinom, int polinomRow){
 	int eksponent = 0;
 	int byteSize = 0;
 	int checker = 0;
-	int countRow = 0;
+	int countRow = -1;
 
 	while (!feof(fp)) {
 		do{
 			fgets(buffer, BUFFER_SIZE, fp);
 			countRow++;
-		} while (countRow <= polinomRow);
+		} while (countRow < polinomRow);
 		while (strlen(buffer) > 0)
 		{
 			temp = Polinom;
@@ -106,20 +106,8 @@ int readFile(char * filename, Position Polinom, int polinomRow){
 			if(Q == NULL)
 				return ERROR_ALLOCATING_MEMORY;
 			
-			while (temp->next != NULL && Q->exponent > temp->next->exponent)
-				temp = temp->next;
-			
-			/* if(temp->next != NULL && Q->exponent < temp->next->exponent){
-				addPolynomAfter(Q, temp); 
-			} */
-			if(temp->next != NULL && Q->exponent == temp->next->exponent){
-				temp->next->coefficient += Q->coefficient;
-				free(Q);
-			}
-			else{
-				addPolynomAfter(Q, temp); 
-			}
-			buffer = buffer + byteSize; // sumljivo
+			sortInput(temp, Q);
+			buffer = buffer + byteSize; 
 		}
 		
 
@@ -128,11 +116,9 @@ int readFile(char * filename, Position Polinom, int polinomRow){
 
 	return 0;
 }
-
 Position createPolynom(int koeficijent, int eksponent){
 
 	Position q = (Position) malloc (sizeof(Polynom));
-
 	if(q == NULL){
 		return NULL;
 	}
@@ -144,12 +130,23 @@ Position createPolynom(int koeficijent, int eksponent){
 	return q;
 
 }
+void sortInput(Position First, Position Second) {
+	while (First->next != NULL && Second->exponent > First->next->exponent)
+		First = First->next;
+	if (First->next != NULL && Second->exponent == First->next->exponent) {
+		First->next->coefficient += Second->coefficient;
+		if (First->next->coefficient == 0)
+			deleteNextPolynom(First);
+
+		free(Second);
+	}
+	else {
+		addPolynomAfter(Second, First);
+	}
+}
 void addPolynomAfter(Position after, Position polinom){
 	after->next = polinom->next;
 	polinom->next = after;
-}
-void addPolynomBefore(Position before, Position polinom){
-
 }
 
 int PolynomAddition(Position First, Position Second, Position Result) {
@@ -224,15 +221,7 @@ int PolynomMultiplication(Position First, Position Second, Position Result) {
 				return ERROR_ALLOCATING_MEMORY;
 
 			tempResult = Result;
-			while (tempResult->next != NULL && Q->exponent > tempResult->next->exponent)
-				tempResult = tempResult->next;
-			if (tempResult->next != NULL && Q->exponent == tempResult->next->exponent) {
-				tempResult->next->coefficient += Q->coefficient;
-				free(Q);
-			}
-			else {
-				addPolynomAfter(Q, tempResult);
-			}
+			sortInput(tempResult, Q);
 
 			temp = temp->next;
 		}
@@ -248,7 +237,6 @@ void printPolynom(Position Polinom){
 	}
 	printf("\n");
 }
-
 void checkErrorPrint(int check){
 	switch (check)
 	{
@@ -266,8 +254,7 @@ void checkErrorPrint(int check){
 		break;
 	}
 }
-
-void deletePolynom(Position Polinom) {
+void deleteAllPolynom(Position Polinom) {
 	Position temp = Polinom->next;
 	Position deleteMe = NULL;
 	while (temp != NULL) {
@@ -276,4 +263,9 @@ void deletePolynom(Position Polinom) {
 		free(deleteMe);
 	}
 	Polinom->next = NULL;
+}
+void deleteNextPolynom(Position Polinom) {
+	Position deleteMe = Polinom->next;
+	Polinom->next = deleteMe->next;
+	free(deleteMe);
 }
