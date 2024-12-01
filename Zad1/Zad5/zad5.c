@@ -1,7 +1,5 @@
-/*Napisati program za zbrajanje i mnozenje polinoma. Koeficijenti i eksponenti se
-citaju iz datoteke.
-Napomena: Eksponenti u datoteci nisu nuzno sortirani.
-//slazemo eksponente od manjeg prema vecem
+/*Napisati program koji iz datoteke cita postfiks izraz i zatim koristenjem stoga racuna
+rezultat. Stog je potrebno realizirati preko vezane liste.
 */
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
