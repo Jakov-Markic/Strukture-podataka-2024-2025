@@ -9,6 +9,9 @@
     {
       "AbsoluteMoniker": "D:0:0:{72A97D55-FEBE-47AE-BCA9-A917CD81CF12}|Zad5\\Zad5.vcxproj|C:\\Users\\User\\Documents\\Fakultet\\Strukture-podataka-2024-2025\\Zad1\\Zad5\\postfix.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{72A97D55-FEBE-47AE-BCA9-A917CD81CF12}|Zad5\\Zad5.vcxproj|solutionrelative:Zad5\\postfix.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.22621.0\\ucrt\\stdio.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,8 +21,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "stdio.h",
+              "DocumentMoniker": "C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.22621.0\\ucrt\\stdio.h",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.22621.0\\ucrt\\stdio.h",
+              "ToolTip": "C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.22621.0\\ucrt\\stdio.h",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\..\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.22621.0\\ucrt\\stdio.h",
+              "ViewState": "AgIAAGMIAAAAAAAAAAAiwGsIAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-12-03T10:50:54.424Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 1,
@@ -28,7 +44,7 @@
               "RelativeDocumentMoniker": "Zad5\\postfix.txt",
               "ToolTip": "C:\\Users\\User\\Documents\\Fakultet\\Strukture-podataka-2024-2025\\Zad1\\Zad5\\postfix.txt",
               "RelativeToolTip": "Zad5\\postfix.txt",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAWAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
               "WhenOpened": "2024-12-01T14:52:28.611Z",
               "EditorCaption": ""
@@ -41,7 +57,7 @@
               "RelativeDocumentMoniker": "Zad5\\zad5.c",
               "ToolTip": "C:\\Users\\User\\Documents\\Fakultet\\Strukture-podataka-2024-2025\\Zad1\\Zad5\\zad5.c",
               "RelativeToolTip": "Zad5\\zad5.c",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFAAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2024-12-01T14:42:31.139Z",
               "EditorCaption": ""

@@ -35,6 +35,9 @@ int main() {
 	int catchError = 0;
 
 	catchError = readPostfixFromFile("postfix.txt", &Head);
+	if (catchError != 0) {
+		return -1;
+	}
 
 	return 0;
 }
@@ -47,21 +50,18 @@ int readPostfixFromFile(char* filename, Position Postfix) {
 		printf("ERROR opening file");
 		return ERROR_OPENNING_FILE;
 	}
-
-	char * buffer = (char *) malloc (BUFFER_SIZE * sizeof(char));
-	if(buffer == NULL){
-		return ERROR_ALLOCATING_MEMORY;
-	}
-	int bufferIndex = 0, isOperator = 0, isNumber = 0, byteSize;
+	char bufferNiz[BUFFER_SIZE];
+	char* pBuffer = bufferNiz;
+	int isOperator = 0, isNumber = 0, byteSizeNum, byteSizeOp;
 	int catchError = 0;
 	float number;
 	char operation;
 
 	while (!feof(fp)) {
-		fgets(buffer, BUFFER_SIZE, fp);
-		while (strlen(buffer) > 0) {
-			isNumber = sscanf(buffer, "%f %n", &number, &byteSize);
-			isOperator = sscanf(buffer, "%c %n", &operation, &byteSize);
+		fgets(pBuffer, BUFFER_SIZE, fp);
+		while (strlen(pBuffer) > 0) {
+			isNumber = sscanf(pBuffer, "%f %n", &number, &byteSizeNum);
+			isOperator = sscanf(pBuffer, "%c %n", &operation, &byteSizeOp);
 
 			if (!isNumber) {
 				//operator
@@ -70,6 +70,7 @@ int readPostfixFromFile(char* filename, Position Postfix) {
 					printf("Wrong file format\n");
 					return ERROR_READING_FROM_FILE;
 				}
+				pBuffer += byteSizeOp;
 			}
 			else {
 				catchError = pushStack(number, Postfix);
@@ -77,9 +78,9 @@ int readPostfixFromFile(char* filename, Position Postfix) {
 					printf("ERROR pushing to stack\n");
 					return ERROR_ALLOCATING_MEMORY;
 				}
+				pBuffer += byteSizeNum;
 			}
-			buffer += byteSize;
-			bufferIndex += byteSize;
+
 		}
 	}
 
