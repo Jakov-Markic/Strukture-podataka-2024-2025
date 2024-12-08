@@ -1,0 +1,336 @@
+/*Napisati program koji cita datoteku racuni.txt u kojoj su zapisani nazivi svih datoteka koji
+predstavljaju pojedini racun. Na pocetku svake datoteke je zapisan datum u kojem vremenu je
+racun izdat u formatu YYYY-MM-DD. Svaki sljedeci red u datoteci predstavlja artikl u formatu
+naziv, kolicina, cijena. Potrebno je formirati vezanu listu racuna sortiranu po datumu. Svaki cvor
+vezane liste sadrzava vezanu listu artikala sortiranu po nazivu artikla. Nakon toga potrebno je
+omoguciti upit kojim ce korisnik saznati koliko je novaca sveukupno potroseno na specificni
+artikl u odredenom vremenskom razdoblju i u kojoj je kolicini isti kupljen.*/
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define BUFFER_SIZE 1024
+#define DATE_SIZE 10
+
+#define ERROR_OPENNING_FILE -1
+#define ERROR_ALLOCATING_MEMORY -2
+#define NOT_VALID_RECEIPT -10
+#define ERROR_FINDING_ARTICLE -20
+
+struct _Article;
+typedef struct _Article* ArticleNext;
+typedef struct _Article {
+	char name[BUFFER_SIZE];
+	int amount;
+	float price;
+
+	ArticleNext next;
+}Article; //gud
+
+struct _Receipt;
+typedef struct _Receipt* nextReceipt;
+typedef struct _Receipt {
+
+	char date[DATE_SIZE];
+	Article ArticleHead;
+	nextReceipt next;
+}Receipt; //gud
+
+int readFile(char *, nextReceipt);
+nextReceipt readReceipt(char*);
+
+void sortInputReceipt(nextReceipt, nextReceipt);
+void sortInputArticle(ArticleNext, ArticleNext); 
+
+void combineArticle(ArticleNext, ArticleNext);
+nextReceipt combineReceipt(nextReceipt, nextReceipt);
+
+ArticleNext createArticle(char *, int, float); 
+
+int findArticle(char *, char *, char *, nextReceipt);
+
+void printError(int); 
+void deleteRecipt(nextReceipt); 
+void printAllRecipts(char*);
+void printReceipt(char*);
+void deleteAllReceipt(nextReceipt);
+
+
+int main() {
+
+	Receipt ReceiptHead;
+	ReceiptHead.next = NULL;
+	ReceiptHead.ArticleHead.next = NULL;
+	strcpy(ReceiptHead.date, "0");
+	readFile("racuni.txt", &ReceiptHead);
+
+	printf("Dobar dan, dobro dosli u mali ducan.\n");
+	printf("Imate sljedece opcije:\n");
+	printf("1 - ispisi sve racune koji postoje\n");
+	printf("2 - trazi artikal u udredjenom datumu\n");
+	printf("X - gasimo program\n");
+
+	int gudInput = 0;
+	char date1[DATE_SIZE];
+	char date2[DATE_SIZE];
+	char item[BUFFER_SIZE];
+	do {
+		printf("Upisi datume YYYY-MM-DD: \n");
+		printf("Od: ");
+		scanf("%s ", date1);
+		printf("Do: ");
+		scanf("%s ", date2);
+		printf("Element za nac: ");
+		scanf("%s ", item);
+		gudInput = findArticle(date1, date2, item, &ReceiptHead);
+
+	} while (gudInput != 0);
+
+
+	return 0;
+}
+
+int findArticle(char* date1, char* date2, char* item, nextReceipt ReceiptHead) {
+
+	nextReceipt temp = ReceiptHead;
+	nextReceipt lower = NULL;
+	nextReceipt high = NULL;
+
+	while (ReceiptHead != NULL || lower == NULL || high == NULL) {
+		if (strcmp(ReceiptHead->next->date, date1) > 0 && lower == NULL) {
+			lower = ReceiptHead->next;
+		}
+		if (strcmp(ReceiptHead->next->date, date2) < 0 && high == NULL) {
+			high = ReceiptHead->next;
+		}
+		ReceiptHead = ReceiptHead->next;
+	}
+
+	if (lower == NULL) {
+		printError(ERROR_FINDING_ARTICLE);
+		return ERROR_FINDING_ARTICLE;
+	}
+
+	while (lower != high->next) {
+
+
+
+	}
+
+
+	return 0;
+}
+
+void printError(int a) {
+	switch (a)
+	{
+	case ERROR_ALLOCATING_MEMORY:
+		printf("ERROR alocating memory\n");
+		break;
+	case ERROR_OPENNING_FILE:
+		printf("ERROR openning file\n");
+		break;
+
+	case NOT_VALID_RECEIPT:
+		printf("NOT valid receipt\n");
+		break;
+	case ERROR_FINDING_ARTICLE:
+		printf("ERROR finding receipt\n");
+		break;
+
+	default:
+		printf("");
+		break;
+	}
+}
+
+int readFile(char* filename, nextReceipt ReceiptHead) {
+
+	FILE* fp;
+	fp = fopen("racuni.txt", "r");
+	if (fp == NULL) {
+		printError(ERROR_OPENNING_FILE);
+		return ERROR_OPENNING_FILE;
+	}
+	
+	char buffer[BUFFER_SIZE];
+	char receiptName[BUFFER_SIZE];
+
+	while (!feof(fp)) {
+		fgets(buffer, BUFFER_SIZE, fp);
+		(void)sscanf(buffer, "%[^\n]", receiptName);
+		nextReceipt R = NULL;
+		R = readReceipt(receiptName);
+		if (R == NULL) {
+			return ERROR_OPENNING_FILE;
+		}
+		(void) sortInputReceipt(ReceiptHead, R);
+	}
+	fclose(fp);
+	return 0;
+}
+
+void sortInputReceipt(nextReceipt Head, nextReceipt R) {
+	nextReceipt Result = NULL;
+	nextReceipt temp = NULL;
+	while (Head->next != NULL && strcmp(R->date, Head->next->date) > 0)
+		Head = Head->next;
+	if (Head->next != NULL && strcmp(Head->next->date, R->date) == 0) {
+		Result = combineReceipt(Head->next, R);
+		if (Result == NULL) {
+			printError(ERROR_ALLOCATING_MEMORY);
+			return;
+		}
+		Result->next = Head->next;
+		Head->next = Result;
+		temp = Result->next;
+		Result->next = Result->next->next;
+		deleteRecipt(R);
+		deleteRecipt(temp);
+	}
+	else {
+		R->next = Head->next;
+		Head->next = R;
+	}
+}
+
+nextReceipt combineReceipt(nextReceipt FirstHead, nextReceipt SecondHead) {
+
+	ArticleNext FirstArticle = FirstHead->ArticleHead.next;
+	ArticleNext SecondArticle = SecondHead->ArticleHead.next;
+	nextReceipt Result = NULL;
+	ArticleNext ResultArticle = NULL;
+	Result = (nextReceipt)malloc(sizeof(Receipt));
+	if (Result == NULL) {
+		printError(ERROR_ALLOCATING_MEMORY);
+		return NULL;
+	}
+	Result->next = NULL;
+	strcpy(Result->date, FirstHead->date);
+	Result->ArticleHead.next = NULL;
+	ResultArticle = &Result->ArticleHead;
+	ArticleNext articleCopy = NULL;
+
+
+	while (FirstArticle != NULL && SecondArticle != NULL) {
+		if (strcmp(FirstArticle->name, SecondArticle->name) < 0) {
+			articleCopy = createArticle(FirstArticle->name, FirstArticle->amount, FirstArticle->price);
+			FirstArticle = FirstArticle->next;
+		}
+		else if (strcmp(FirstArticle->name, SecondArticle->name) > 0) {
+			articleCopy = createArticle(SecondArticle->name, SecondArticle->amount, SecondArticle->price);
+			SecondArticle = SecondArticle->next;
+		}
+		else {
+			articleCopy = createArticle(FirstArticle->name, FirstArticle->amount + SecondArticle->amount, FirstArticle->price);
+			FirstArticle = FirstArticle->next;
+			SecondArticle = SecondArticle->next;
+		}
+		if (articleCopy == NULL) {
+			return NULL;
+		}
+
+		ResultArticle->next = articleCopy;
+		ResultArticle = ResultArticle->next;
+		if (FirstArticle == NULL) {
+			while (SecondArticle != NULL) {
+				articleCopy = createArticle(SecondArticle->name, SecondArticle->amount, SecondArticle->price);
+				ResultArticle->next = articleCopy;
+				ResultArticle = ResultArticle->next;
+				SecondArticle = SecondArticle->next;
+			}
+		}
+
+		if (SecondArticle == NULL) {
+			while (FirstArticle != NULL) {
+				articleCopy = createArticle(FirstArticle->name, FirstArticle->amount, FirstArticle->price);
+				ResultArticle->next = articleCopy;
+				ResultArticle = ResultArticle->next;
+				FirstArticle = FirstArticle->next;
+			}
+		}
+
+	}
+	return Result;
+}
+
+void deleteRecipt(nextReceipt deleteMe) {
+	ArticleNext temp1 = &deleteMe->ArticleHead;
+	ArticleNext temp2 = deleteMe->ArticleHead.next;
+	while (temp2 != NULL) {
+		temp1->next = temp2->next;
+		free(temp2);
+		temp2 = temp1->next;
+	}
+	free(deleteMe);
+}
+
+nextReceipt readReceipt(char* filename) {
+	FILE* fp;
+	fp = fopen(filename, "r");
+	if (fp == NULL) {
+		printError(ERROR_OPENNING_FILE);
+		return NULL;
+	}
+
+	nextReceipt R = NULL;
+	R = (nextReceipt)malloc(sizeof(Receipt));
+	if (R == NULL) {
+		printError(ERROR_ALLOCATING_MEMORY);
+		return NULL;
+	}
+	R->next = NULL;
+	R->ArticleHead.next = NULL;
+
+	ArticleNext Artc = NULL;
+	char buffer[BUFFER_SIZE];
+	int amount;
+	float price;
+	char name[BUFFER_SIZE];
+
+	fgets(buffer, BUFFER_SIZE, fp);
+	strcpy(R->date, buffer);
+
+	while (!feof(fp)) {
+		fgets(buffer, BUFFER_SIZE, fp);
+		(void)sscanf(buffer, "%s %d %f", name, &amount, &price);
+		Artc = createArticle(name, amount, price);
+		if (Artc == NULL) {
+			printError(ERROR_ALLOCATING_MEMORY);
+			return NULL;
+		}
+		sortInputArticle(&(R->ArticleHead), Artc);
+	}
+
+	fclose(fp);
+	return R;
+}
+
+ArticleNext createArticle(char* name, int amount, float price) {
+	ArticleNext Q = NULL;
+	Q = (ArticleNext)malloc(sizeof(Article));
+	if (Q == NULL) {
+		printError(ERROR_ALLOCATING_MEMORY);
+		return NULL;
+	}
+	strcpy(Q->name, name);
+	Q->amount = amount;
+	Q->price = price;
+	Q->next = NULL;
+
+	return Q;
+}
+
+void sortInputArticle(ArticleNext Head, ArticleNext Art) {
+	while (Head->next != NULL && strcmp(Art->name, Head->next->name) > 0)
+		Head = Head->next;
+	if (Head->next != NULL && strcmp(Art->name, Head->next->name) == 0){
+		Head->next->amount += Art->amount;
+	}
+	else {
+		Art->next = Head->next;
+		Head->next = Art;
+	}
+}
