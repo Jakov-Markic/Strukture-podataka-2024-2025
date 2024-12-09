@@ -2,3 +2,4 @@
 Franje 10 0.3
 Skale 1 24
 Brokva 50 0.1
+Jabuka 2 1.2
