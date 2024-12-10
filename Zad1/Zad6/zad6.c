@@ -45,7 +45,6 @@ nextReceipt readReceipt(char*);
 void sortInputReceipt(nextReceipt, nextReceipt);
 void sortInputArticle(ArticleNext, ArticleNext); 
 
-void combineArticle(ArticleNext, ArticleNext);
 nextReceipt combineReceipt(nextReceipt, nextReceipt);
 
 ArticleNext createArticle(char *, int, float); 
@@ -55,11 +54,10 @@ void searchReceipt(char*, int*, float*, nextReceipt);
 int checkDate(int, int, int);
 
 void printError(int); 
-void deleteRecipt(nextReceipt); 
-void printAllRecipts(char*);
-void printReceipt(char*);
-void deleteAllReceipt(nextReceipt);
+void printAllRecipts(nextReceipt);
 
+void deleteAllReceipt(nextReceipt);
+void deleteRecipt(nextReceipt);
 
 int main() {
 
@@ -69,121 +67,53 @@ int main() {
 	strcpy(ReceiptHead.date, "0");
 	readFile("racuni.txt", &ReceiptHead);
 
-	//printf("Dobar dan, dobro dosli u mali ducan.\n");
-	//printf("Imate sljedece opcije:\n");
-	//printf("1 - ispisi sve racune koji postoje\n");
-	//printf("2 - trazi artikal u udredjenom datumu\n");
-	//printf("X - gasimo program\n");
 
 	if (ReceiptHead.next == NULL) {
 		printf("No valid receipts found");
 		return -1;
 	}
 
-	int gudInput = 0;
+	int gudInput = 0, wantToRun = 0;
 	char date1[DATE_SIZE];
 	char date2[DATE_SIZE];
 	char item[BUFFER_SIZE];
-	do {
-		printf("Upisi datume YYYY-MM-DD: \n");
-		printf("Od: ");
-		scanf(" %s", date1);
-		printf("Do: ");
-		scanf(" %s", date2);
-		printf("Element za nac: ");
-		scanf(" %s", item);
-		gudInput = findArticle(date1, date2, item, &ReceiptHead);
 
-	} while (gudInput != 0);
+	printf("Dobar dan, dobro dosli u mali ducan.\n");
+	printf("Imate sljedece opcije:\n");
+	printf("1 - ispisi sve racune koji postoje\n");
+	printf("2 - trazi artikal u udredjenom datumu\n");
+	printf("X (bilo sta drugo) - gasimo program\n");
+	printf("Vasa opcija je: ");
+	scanf("%d", &wantToRun);
 
+	while (wantToRun == 1 || wantToRun == 2) {
+
+		if (wantToRun == 1) {
+			printAllRecipts(ReceiptHead.next);
+		}
+		else {
+			do {
+				printf("Upisi datume YYYY-MM-DD: \n");
+				printf("Od: ");
+				scanf(" %s", date1);
+				printf("Do: ");
+				scanf(" %s", date2);
+				printf("Element za nac: ");
+				scanf(" %s", item);
+				gudInput = findArticle(date1, date2, item, &ReceiptHead);
+
+			} while (gudInput != 0);
+		}
+
+		printf("Vasa opcija je: ");
+		scanf("%d", &wantToRun);
+	}
+	printf("\nHvala na dolaski u mali ducan\nAdio\n");
+
+	deleteAllReceipt(&ReceiptHead);
 	return 0;
 }
 
-int findArticle(char* date1, char* date2, char* item, nextReceipt ReceiptHead) {
-
-	nextReceipt lower = ReceiptHead->next;
-	nextReceipt high = NULL;
-
-	int ammount = 0;
-	float price = 0;
-
-	if (strcmp(date2, date1) < 0) {
-		printError(ERROR_INVALID_DATE);
-		return ERROR_INVALID_DATE;
-	}
-
-	while (ReceiptHead->next != NULL) {
-		if (strcmp(date1, ReceiptHead->next->date) >= 0) {
-			lower = ReceiptHead->next;
-		}
-		if (strcmp(date2, ReceiptHead->next->date) >= 0) {
-			high = ReceiptHead->next;
-		}
-		ReceiptHead = ReceiptHead->next;
-	}
-
-	if (high == NULL) {
-		printError(ERROR_FINDING_ARTICLE);
-		return ERROR_FINDING_ARTICLE;
-	}
-
-	while (lower != high->next) {
-
-		searchReceipt(item, &ammount, &price, lower);
-
-		lower = lower->next;
-	}
-
-	printf("Trazeni element %s :\n", item);
-	printf("Kolicina: %d\n", ammount);
-	printf("Cijena: %f\n", price);
-	printf("Ukupno: %f\n", ammount * price);
-
-
-	return 0;
-}
-void searchReceipt(char* articleName, int * ammount, float * price, nextReceipt fReceipt) {
-
-	ArticleNext findMe = fReceipt->ArticleHead.next;
-
-	while (findMe != NULL) {
-
-		if (strcmp(findMe->name, articleName) == 0) {
-			*ammount += findMe->amount;
-			*price = findMe->price;
-			break;
-		}
-
-		findMe = findMe->next;
-	}
-
-}
-
-void printError(int a) {
-	switch (a)
-	{
-	case ERROR_ALLOCATING_MEMORY:
-		printf("ERROR alocating memory\n");
-		break;
-	case ERROR_OPENNING_FILE:
-		printf("ERROR openning file\n");
-		break;
-
-	case NOT_VALID_RECEIPT:
-		printf("NOT valid receipt\n");
-		break;
-	case ERROR_FINDING_ARTICLE:
-		printf("ERROR finding receipt\n");
-		break;
-	case ERROR_INVALID_DATE:
-		printf("ERROR invalid dates\n");
-		break;
-
-	default:
-		printf("");
-		break;
-	}
-}
 
 int readFile(char* filename, nextReceipt ReceiptHead) {
 
@@ -193,7 +123,7 @@ int readFile(char* filename, nextReceipt ReceiptHead) {
 		printError(ERROR_OPENNING_FILE);
 		return ERROR_OPENNING_FILE;
 	}
-	
+
 	char buffer[BUFFER_SIZE];
 	char receiptName[BUFFER_SIZE];
 
@@ -205,10 +135,56 @@ int readFile(char* filename, nextReceipt ReceiptHead) {
 		if (R == NULL) {
 			return ERROR_OPENNING_FILE;
 		}
-		(void) sortInputReceipt(ReceiptHead, R);
+		(void)sortInputReceipt(ReceiptHead, R);
 	}
 	fclose(fp);
 	return 0;
+}
+nextReceipt readReceipt(char* filename) {
+	FILE* fp;
+	fp = fopen(filename, "r");
+	if (fp == NULL) {
+		printError(ERROR_OPENNING_FILE);
+		return NULL;
+	}
+
+	nextReceipt R = NULL;
+	R = (nextReceipt)malloc(sizeof(Receipt));
+	if (R == NULL) {
+		printError(ERROR_ALLOCATING_MEMORY);
+		return NULL;
+	}
+	R->next = NULL;
+	R->ArticleHead.next = NULL;
+
+	ArticleNext Artc = NULL;
+	char buffer[BUFFER_SIZE];
+	int amount, year, month, day;
+	int checkInput = 0;
+	float price;
+	char name[BUFFER_SIZE];
+
+	fgets(buffer, BUFFER_SIZE, fp);
+	checkInput = sscanf(buffer, "%d-%d-%d", &year, &month, &day);
+	if (checkDate(year, month, day) == ERROR_INVALID_DATE || checkInput != 3) {
+		printError(ERROR_INVALID_DATE);
+		return NULL;
+	}
+	strcpy(R->date, buffer);
+	R->date[DATE_SIZE - 1] = '\0';
+
+	while (!feof(fp)) {
+		fgets(buffer, BUFFER_SIZE, fp);
+		(void)sscanf(buffer, "%s %d %f", name, &amount, &price);
+		Artc = createArticle(name, amount, price);
+		if (Artc == NULL) {
+			return NULL;
+		}
+		sortInputArticle(&(R->ArticleHead), Artc);
+	}
+
+	fclose(fp);
+	return R;
 }
 
 void sortInputReceipt(nextReceipt Head, nextReceipt R) {
@@ -234,6 +210,18 @@ void sortInputReceipt(nextReceipt Head, nextReceipt R) {
 		Head->next = R;
 	}
 }
+void sortInputArticle(ArticleNext Head, ArticleNext Art) {
+	while (Head->next != NULL && strcmp(Art->name, Head->next->name) > 0)
+		Head = Head->next;
+	if (Head->next != NULL && strcmp(Art->name, Head->next->name) == 0) {
+		Head->next->amount += Art->amount;
+	}
+	else {
+		Art->next = Head->next;
+		Head->next = Art;
+	}
+}
+
 
 nextReceipt combineReceipt(nextReceipt FirstHead, nextReceipt SecondHead) {
 
@@ -243,7 +231,6 @@ nextReceipt combineReceipt(nextReceipt FirstHead, nextReceipt SecondHead) {
 	ArticleNext ResultArticle = NULL;
 	Result = (nextReceipt)malloc(sizeof(Receipt));
 	if (Result == NULL) {
-		printError(ERROR_ALLOCATING_MEMORY);
 		return NULL;
 	}
 	Result->next = NULL;
@@ -294,19 +281,93 @@ nextReceipt combineReceipt(nextReceipt FirstHead, nextReceipt SecondHead) {
 	}
 	return Result;
 }
-
-void deleteRecipt(nextReceipt deleteMe) {
-	ArticleNext temp1 = &deleteMe->ArticleHead;
-	ArticleNext temp2 = deleteMe->ArticleHead.next;
-	while (temp2 != NULL) {
-		temp1->next = temp2->next;
-		free(temp2);
-		temp2 = temp1->next;
+ArticleNext createArticle(char* name, int amount, float price) {
+	ArticleNext Q = NULL;
+	Q = (ArticleNext)malloc(sizeof(Article));
+	if (Q == NULL) {
+		printError(ERROR_ALLOCATING_MEMORY);
+		return NULL;
 	}
-	free(deleteMe);
+	strcpy(Q->name, name);
+	Q->amount = amount;
+	Q->price = price;
+	Q->next = NULL;
+
+	return Q;
 }
 
+int findArticle(char* date1, char* date2, char* item, nextReceipt ReceiptHead) {
 
+	nextReceipt lower = ReceiptHead->next;
+	nextReceipt high = NULL;
+
+	int ammount = 0;
+	float price = 0;
+
+	if (strcmp(date2, date1) < 0) {
+		printError(ERROR_INVALID_DATE);
+		return ERROR_INVALID_DATE;
+	}
+
+	while (ReceiptHead->next != NULL) {
+		if (strcmp(date1, ReceiptHead->next->date) >= 0) {
+			lower = ReceiptHead->next;
+			if (strcmp(date1, lower->date) > 0 && strcmp(date1, lower->next->date) < 0) {
+				lower = lower->next;
+			}
+		}
+		if (strcmp(date2, ReceiptHead->next->date) >= 0) {
+			high = ReceiptHead->next;
+		}
+		ReceiptHead = ReceiptHead->next;
+	}
+
+	if (lower == ReceiptHead) {
+		printError(ERROR_FINDING_ARTICLE);
+		return ERROR_FINDING_ARTICLE;
+	}
+
+	if (high == NULL) {
+		printError(ERROR_FINDING_ARTICLE);
+		return ERROR_FINDING_ARTICLE;
+	}
+
+	while (lower != high->next) {
+
+		searchReceipt(item, &ammount, &price, lower);
+
+		lower = lower->next;
+	}
+
+	if (ammount == 0) {
+		printf("Nismo nasli trazeni element :(\n\n");
+		return 0;
+	}
+
+	printf("\nTrazeni element %s :\n", item);
+	printf("Kolicina: %d\n", ammount);
+	printf("Cijena: %f\n", price);
+	printf("Ukupno: %f\n\n", ammount * price);
+
+
+	return 0;
+}
+void searchReceipt(char* articleName, int* ammount, float* price, nextReceipt fReceipt) {
+
+	ArticleNext findMe = fReceipt->ArticleHead.next;
+
+	while (findMe != NULL) {
+
+		if (strcmp(findMe->name, articleName) == 0) {
+			*ammount += findMe->amount;
+			*price = findMe->price;
+			break;
+		}
+
+		findMe = findMe->next;
+	}
+
+}
 int checkDate(int year, int month, int day) {
 	if (year < 0 || year >= 10000) {
 		printError(ERROR_INVALID_DATE);
@@ -336,73 +397,63 @@ int checkDate(int year, int month, int day) {
 	return 0;
 }
 
-nextReceipt readReceipt(char* filename) {
-	FILE* fp;
-	fp = fopen(filename, "r");
-	if (fp == NULL) {
-		printError(ERROR_OPENNING_FILE);
-		return NULL;
+void printError(int a) {
+	switch (a)
+	{
+	case ERROR_ALLOCATING_MEMORY:
+		printf("ERROR alocating memory\n");
+		break;
+	case ERROR_OPENNING_FILE:
+		printf("ERROR openning file\n");
+		break;
+
+	case NOT_VALID_RECEIPT:
+		printf("NOT valid receipt\n");
+		break;
+	case ERROR_FINDING_ARTICLE:
+		printf("ERROR finding receipt\n");
+		break;
+	case ERROR_INVALID_DATE:
+		printf("ERROR invalid dates\n");
+		break;
+
+	default:
+		printf("");
+		break;
 	}
+}
+void printAllRecipts(nextReceipt ReceiptBeg) {
+	ArticleNext temp = NULL;
+	while (ReceiptBeg != NULL) {
 
-	nextReceipt R = NULL;
-	R = (nextReceipt)malloc(sizeof(Receipt));
-	if (R == NULL) {
-		printError(ERROR_ALLOCATING_MEMORY);
-		return NULL;
-	}
-	R->next = NULL;
-	R->ArticleHead.next = NULL;
-
-	ArticleNext Artc = NULL;
-	char buffer[BUFFER_SIZE];
-	int amount, year, month, day;
-	float price;
-	char name[BUFFER_SIZE];
-
-	fgets(buffer, BUFFER_SIZE, fp);
-	sscanf(buffer, "%d-%d-%d", &year, &month, &day);
-	if(checkDate(year, month, day) == ERROR_INVALID_DATE);
-
-	strcpy(R->date, buffer);
-
-	while (!feof(fp)) {
-		fgets(buffer, BUFFER_SIZE, fp);
-		(void)sscanf(buffer, "%s %d %f", name, &amount, &price);
-		Artc = createArticle(name, amount, price);
-		if (Artc == NULL) {
-			printError(ERROR_ALLOCATING_MEMORY);
-			return NULL;
+		printf("\nDate: %s\n", ReceiptBeg->date);
+		temp = ReceiptBeg->ArticleHead.next;
+		while (temp != NULL) {
+			printf("%-20s %d %f\n", temp->name, temp->amount, temp->price);
+			temp = temp->next;
 		}
-		sortInputArticle(&(R->ArticleHead), Artc);
+		printf("----------------------\n");
+
+		ReceiptBeg = ReceiptBeg->next;
 	}
 
-	fclose(fp);
-	return R;
 }
 
-ArticleNext createArticle(char* name, int amount, float price) {
-	ArticleNext Q = NULL;
-	Q = (ArticleNext)malloc(sizeof(Article));
-	if (Q == NULL) {
-		printError(ERROR_ALLOCATING_MEMORY);
-		return NULL;
+void deleteAllReceipt(nextReceipt ReceiptHead) {
+	nextReceipt temp = ReceiptHead->next;
+	while (temp != NULL) {
+		ReceiptHead->next = temp->next;
+		deleteRecipt(temp);
+		temp = ReceiptHead->next;
 	}
-	strcpy(Q->name, name);
-	Q->amount = amount;
-	Q->price = price;
-	Q->next = NULL;
-
-	return Q;
 }
-
-void sortInputArticle(ArticleNext Head, ArticleNext Art) {
-	while (Head->next != NULL && strcmp(Art->name, Head->next->name) > 0)
-		Head = Head->next;
-	if (Head->next != NULL && strcmp(Art->name, Head->next->name) == 0){
-		Head->next->amount += Art->amount;
+void deleteRecipt(nextReceipt deleteMe) {
+	ArticleNext temp1 = &deleteMe->ArticleHead;
+	ArticleNext temp2 = deleteMe->ArticleHead.next;
+	while (temp2 != NULL) {
+		temp1->next = temp2->next;
+		free(temp2);
+		temp2 = temp1->next;
 	}
-	else {
-		Art->next = Head->next;
-		Head->next = Art;
-	}
+	free(deleteMe);
 }
