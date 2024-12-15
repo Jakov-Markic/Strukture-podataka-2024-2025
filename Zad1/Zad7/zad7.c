@@ -30,7 +30,6 @@ dirPath moveToDirectory(Directory*, char*);
 void removeChild(Directory*);
 void printDirectory(Directory*);
 
-void choosenCommand(char*, char *, Directory*);
 void exitProgram(Directory*);
 
 void printError(int);
@@ -40,9 +39,13 @@ int main() {
 
 	Directory root;
 	dirPath currentDir;
+	dirPath temp;
 	char commandLine[MAX_DIRECTORY_NAME];
 	char dirName[MAX_DIRECTORY_NAME];
-	char command[5];
+	char currentPath[MAX_DIRECTORY_NAME] = "";
+	char tempPath[MAX_DIRECTORY_NAME];
+	int pathLength = 0;
+	char command[10];
 	int isExit = 0;
 	int checkInput = 0;
 
@@ -56,64 +59,66 @@ int main() {
 	root.childAmmount = 2;
 	root.size = 4;
 	currentDir = &root;
+	strcat(currentPath, root.name);
+	pathLength += (int)strlen(root.name);
 
 	while (!isExit) {
-
+		printf("\n%s>", currentPath);
 		fgets(commandLine, MAX_DIRECTORY_NAME, stdin);
 		checkInput = sscanf(commandLine, "%s %s\n", command, dirName);
-		tolower(command);
 		if (checkInput == 0) {
-			printf("Command not recognised\n");
+			printf("Something is wrong with input\n");
+			
 		}
-		else if (checkInput == 1) {
-			if (!strcmp(command, "exit"))
+		else {
+			(void)tolower(command);
+			if (!strcmp(command, "dir"))
+				printDirectory(currentDir);
+			else if (!strcmp(command, "exit"))
 				isExit = 1;
-			if (!strcmp(command, "help")) {
+			else if (!strcmp(command, "help")) {
 				printf("cd - move to directory\n");
 				printf("md - create directory\n");
 				printf("dir - print directory\n");
 				printf("rm - remove directory\n");
+				printf("exit - exit program\n");
 			}
-			if (!strcmp(command, "dir"))
-				printDirectory(currentDir);
-		}
-		else {
-			if (!strcmp(command, "md")) {
-				createDirectory(currentDir, dirName);
-			}
-			if (!strcmp(command, "cd"))
+			else if (!strncmp(command, "cd", 2)) {
+				if (command[2] == '.') {
+					if (command[3] == '.')
+						strcpy(dirName, "..");
+					else
+						strcpy(dirName, ".");
+				}
+				temp = currentDir;
 				currentDir = moveToDirectory(currentDir, dirName);
-			if (!strcmp(command, "rm"))
+				if (temp != currentDir) {
+					if (!strcmp(dirName, "..")) {
+						pathLength = pathLength - ((int)strlen(temp->name) + 1);
+						strcpy(tempPath, currentPath); 
+						strncpy(currentPath, tempPath, pathLength);
+						currentPath[pathLength] = '\0';
+					}
+					else if (strcmp(dirName, ".")) {
+						strcat(currentPath, "\\");
+						strcat(currentPath, dirName);
+						pathLength += (int)strlen(dirName) + 1;
+					}
+				}
+			}
+			else if (!strcmp(command, "md"))
+				createDirectory(currentDir, dirName);
+			else if (!strcmp(command, "rm"))
 				removeDirectory(currentDir, dirName);
+			else
+				printf("Command not recognised\n");
 		}
 	}
-
 
 	return 0;
 }
 
-int choosenCommand(char* command, char dirName, Directory * currentDir) {
-	if (!strcmp(command, "exit"))
-		return 1;
-	if (!strcmp(command, "help")) {
-		printf("cd - move to directory\n");
-		printf("md - create directory\n");
-		printf("dir - print directory\n");
-		printf("rm - remove directory\n");
-	}
-	if (!strcmp(command, "dir"))
-		printDirectory(currentDir);
-	if (!strcmp(command, "md")) {
-		createDirectory(currentDir, dirName);
-	}
-	if (!strcmp(command, "cd"))
-		currentDir = moveToDirectory(currentDir, dirName);
-	if (!strcmp(command, "rm"))
-		removeDirectory(currentDir, dirName);
-}
-
 dirPath createDirectory(Directory*dir, char*name) {
-	dirPath temp;
 	dirPath* tempChildren = dir->children;
 	int i,j;
 	if (dir->childAmmount == dir->size) {
@@ -127,7 +132,7 @@ dirPath createDirectory(Directory*dir, char*name) {
 			dir->children[i] = NULL;
 		}
 	}
-	for (i = 2; dir->children[i] != NULL; i++) {
+	for (i = 2; i < dir->childAmmount; i++) {
 		if (!strcmp(name, dir->children[i]->name)) {
 			printf("Directory already exists, try another name.\n");
 			return NULL;
@@ -144,6 +149,7 @@ dirPath createDirectory(Directory*dir, char*name) {
 		return NULL;
 	}
 	dir->childAmmount++;
+	return NULL;
 
 }
 void removeDirectory(Directory*dir, char*name) {
@@ -171,9 +177,8 @@ void removeDirectory(Directory*dir, char*name) {
 void removeChild(Directory* dir) {
 	if (dir->childAmmount != 2) {
 		int i;
-		for (i = 2; dir->children[i] != NULL; i++) {
+		for (i = 2; i < dir->childAmmount; i++) {
 			removeChild(dir->children[i]);
-			dir->childAmmount--;
 		}
 	}
 	free(dir->children);
