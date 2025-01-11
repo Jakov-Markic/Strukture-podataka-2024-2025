@@ -1,0 +1,3 @@
+﻿  zad11.c
+MSVCRTD.lib(exe_main.obj) : error LNK2019: unresolved external symbol main referenced in function "int __cdecl invoke_main(void)" (?invoke_main@@YAHXZ)
+C:\Users\User\Documents\Fakultet\Strukture-podataka-2024-2025\Zad1\x64\Debug\Zad11.exe : fatal error LNK1120: 1 unresolved externals

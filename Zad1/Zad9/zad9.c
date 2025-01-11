@@ -40,7 +40,7 @@ Tree* deleteEl(Tree*, int);
 void findEl(Tree*, int);
 Tree* findMin(Tree*);
 
-void createBranch(Tree*, int);
+Tree* createBranch(Tree*, int);
 Tree* createEl(int);
 Tree* insert(int [], int);
 int replace(Tree*);
@@ -55,19 +55,16 @@ int main() {
 	int len = sizeof(array) / sizeof(int);
 	int i, value;
 	root = insert(array, len);
+	printf("Level order a) & b):\n");
 	print_levelorder(root);
 	replace(root);
 	printf("\n----------------\n");
 	print_levelorder(root);
 	printf("\n----------------\n");
 
-
-	value = (rand() % (90 - 10 + 1)) + 10;
-	rootB = createEl(value);
-
-	for (i = 1; i < 4; i++) {
+	for (i = 0; i < 4; i++) {
 		value = (rand() % (90 - 10 + 1)) + 10;
-		createBranch(rootB, value);
+		rootB = createBranch(rootB, value);
 	}
 
 	FILE* fp = NULL;
@@ -76,6 +73,7 @@ int main() {
 		printf("Error opening file\n");
 		return -1;
 	}
+	printf("Level order random tree in file:");
 	print_inorderFile(rootB, fp);
 	printf("\n----------------\n");
 	print_levelorder(rootB);
@@ -109,36 +107,35 @@ int replace(Tree* root) {
 
 }
 
-
 Tree * insert(int array[], int len) {
 	int i;
-	Tree* root = createEl(array[0]);
-	for (i = 1; i < len; i++) {
-		createBranch(root, array[i]);
+	Tree* root = NULL;
+	for (i = 0; i < len; i++) {
+		root = createBranch(root, array[i]);
 	}
 	return root;
 };
 
-void createBranch(Tree* root, int value) {
+Tree* createBranch(Tree* root, int value) {
 	if (root == NULL) {
 		root = createEl(value);
-		return;
+		return root;
 	}
 	else if (value < root->value) {
 		if (root->right == NULL) {
 			root->right = createEl(value);
-			return;
+			return root;
 		}
 		createBranch(root->right, value);
 	}
 	else if (value >= root->value) {
 		if (root->left == NULL) {
 			root->left = createEl(value);
-			return;
+			return root;
 		}
 		createBranch(root->left, value);
 	}
-	return;
+	return root;
 }
 Tree* createEl(int value) {
 	Tree* T = (Tree*)malloc(sizeof(Tree));

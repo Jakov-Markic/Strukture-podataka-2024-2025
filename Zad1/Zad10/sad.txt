@@ -1,0 +1,5 @@
+New York 8250000
+Los Angeles 3800000
+Washington DC 680000
+Nashville 710000
+Miami 455000

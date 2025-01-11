@@ -1,0 +1,5 @@
+Peking 20000000
+Shangaj 24000000
+Shenzen 19000000
+Choging 17000000
+Tianjin 9000000

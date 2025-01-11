@@ -1,0 +1,5 @@
+Istambul 14000000
+Bursa 5300000
+Ankara 3500000
+Adana 1400000
+Batman 300000

@@ -1,0 +1,6 @@
+Hrvatska hrvatska.txt
+Njemacka deutch.txt
+Italija italija.txt
+Turska turska.txt
+Kina kina.txt
+SAD sad.txt
