@@ -74,20 +74,21 @@ int main() {
 		return -1;
 	}
 	printf("Level order random tree in file:");
+
 	print_inorderFile(rootB, fp);
 	printf("\n----------------\n");
 	print_levelorder(rootB);
+
 	replace(rootB);
+
 	fprintf(fp, "\n\n");
 	printf("\n----------------\n");
 	print_levelorder(rootB);
 	print_inorderFile(rootB, fp);
-	fclose(fp);
 
+	fclose(fp);
 	deleteTree(root);
 	deleteTree(rootB);
-
-	
 
 	return 0;
 }
@@ -106,7 +107,6 @@ int replace(Tree* root) {
 	return currentvalue + root->value;
 
 }
-
 Tree * insert(int array[], int len) {
 	int i;
 	Tree* root = NULL;
@@ -119,20 +119,17 @@ Tree * insert(int array[], int len) {
 Tree* createBranch(Tree* root, int value) {
 	if (root == NULL) {
 		root = createEl(value);
-		return root;
 	}
 	else if (value < root->value) {
 		if (root->right == NULL) {
 			root->right = createEl(value);
-			return root;
-		}
+		}else
 		createBranch(root->right, value);
 	}
 	else if (value >= root->value) {
 		if (root->left == NULL) {
 			root->left = createEl(value);
-			return root;
-		}
+		}else
 		createBranch(root->left, value);
 	}
 	return root;
@@ -149,6 +146,7 @@ Tree* createEl(int value) {
 
 	return T;
 }
+
 void deleteTree(Tree* root) {
 	if (root == NULL) {
 		return;
@@ -282,7 +280,6 @@ void print_inorder(Tree* root) {
 	printf("%d ", root->value);
 	print_inorder(root->right);
 }
-
 void findEl(Tree* root, int value) {
 	if (root == NULL) {
 		printf("Value not found\n");

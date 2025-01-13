@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\User\\Documents\\Fakultet\\Strukture-podataka-2024-2025\\Zad1\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{94302CB7-3D3F-41D1-9DAD-F26E322BF51E}|Zad11\\Zad11.vcxproj|C:\\Users\\User\\Documents\\Fakultet\\Strukture-podataka-2024-2025\\Zad1\\Zad11\\zad11.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{94302CB7-3D3F-41D1-9DAD-F26E322BF51E}|Zad11\\Zad11.vcxproj|solutionrelative:Zad11\\zad11.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{D68A90B4-A46E-47AE-9739-28DBAAB88B63}|Zad10b\\Zad10b.vcxproj|C:\\Users\\User\\Documents\\Fakultet\\Strukture-podataka-2024-2025\\Zad1\\Zad10b\\zad10b.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{D68A90B4-A46E-47AE-9739-28DBAAB88B63}|Zad10b\\Zad10b.vcxproj|solutionrelative:Zad10b\\zad10b.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
@@ -22,44 +26,58 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "zad10b.c",
               "DocumentMoniker": "C:\\Users\\User\\Documents\\Fakultet\\Strukture-podataka-2024-2025\\Zad1\\Zad10b\\zad10b.c",
               "RelativeDocumentMoniker": "Zad10b\\zad10b.c",
-              "ToolTip": "C:\\Users\\User\\Documents\\Fakultet\\Strukture-podataka-2024-2025\\Zad1\\Zad10b\\zad10b.c*",
-              "RelativeToolTip": "Zad10b\\zad10b.c*",
-              "ViewState": "AgIAAOwAAAAAAAAAAAAMwP4AAAA2AAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\User\\Documents\\Fakultet\\Strukture-podataka-2024-2025\\Zad1\\Zad10b\\zad10b.c",
+              "RelativeToolTip": "Zad10b\\zad10b.c",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2025-01-11T21:02:45.658Z",
+              "WhenOpened": "2025-01-13T18:04:34.352Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "zad11.c",
+              "DocumentMoniker": "C:\\Users\\User\\Documents\\Fakultet\\Strukture-podataka-2024-2025\\Zad1\\Zad11\\zad11.c",
+              "RelativeDocumentMoniker": "Zad11\\zad11.c",
+              "ToolTip": "C:\\Users\\User\\Documents\\Fakultet\\Strukture-podataka-2024-2025\\Zad1\\Zad11\\zad11.c",
+              "RelativeToolTip": "Zad11\\zad11.c",
+              "ViewState": "AgIAAI0AAAAAAAAAAAAawJwAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2025-01-13T18:04:37.742Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "zad9.c",
-              "DocumentMoniker": "C:\\Users\\User\\Documents\\Fakultet\\Strukture-podataka-2024-2025\\Zad1\\Zad9\\zad9.c",
-              "RelativeDocumentMoniker": "Zad9\\zad9.c",
-              "ToolTip": "C:\\Users\\User\\Documents\\Fakultet\\Strukture-podataka-2024-2025\\Zad1\\Zad9\\zad9.c",
-              "RelativeToolTip": "Zad9\\zad9.c",
-              "ViewState": "AgIAAHsAAAAAAAAAAAAAAIwAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2025-01-11T19:43:50.721Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
               "Title": "zad10.c",
               "DocumentMoniker": "C:\\Users\\User\\Documents\\Fakultet\\Strukture-podataka-2024-2025\\Zad1\\Zad10\\zad10.c",
               "RelativeDocumentMoniker": "Zad10\\zad10.c",
               "ToolTip": "C:\\Users\\User\\Documents\\Fakultet\\Strukture-podataka-2024-2025\\Zad1\\Zad10\\zad10.c",
               "RelativeToolTip": "Zad10\\zad10.c",
-              "ViewState": "AgIAAIQAAAAAAAAAAAAAAKMAAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAANkAAAAAAAAAAAAAAAYBAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2025-01-11T18:05:03.825Z",
+              "WhenOpened": "2025-01-13T18:04:30.477Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "zad9.c",
+              "DocumentMoniker": "C:\\Users\\User\\Documents\\Fakultet\\Strukture-podataka-2024-2025\\Zad1\\Zad9\\zad9.c",
+              "RelativeDocumentMoniker": "Zad9\\zad9.c",
+              "ToolTip": "C:\\Users\\User\\Documents\\Fakultet\\Strukture-podataka-2024-2025\\Zad1\\Zad9\\zad9.c",
+              "RelativeToolTip": "Zad9\\zad9.c",
+              "ViewState": "AgIAAFkAAAAAAAAAAAAtwBIBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2025-01-13T18:04:25.974Z",
               "EditorCaption": ""
             }
           ]

@@ -44,11 +44,11 @@ typedef struct _TreeCountry {
 
 
 TreeCountry* readFile(char*);
-City* readFileCity(char*); //gud
+City* readFileCity(char*);
 
 TreeCountry* createCountry(char*, char *);
 TreeCountry* createBranch(TreeCountry*, char*, char*);
-City* createCity(char*, int); //gud
+City* createCity(char*, int);
 
 void printDataBase(TreeCountry*);
 void printCityList(City*);
@@ -56,19 +56,23 @@ void printCityList(City*);
 void findsCites(TreeCountry*, char*, int);
 void printCities(City*, int);
 
+
+void deleteTree(TreeCountry*);
+void deleteList(City*);
+
 int main() {
 
-	TreeCountry* Head = NULL;
+	TreeCountry* Root = NULL;
 	char buffer[BUFFER_SIZE];
 	char name[BUFFER_SIZE];
 	int population = 0;
 	int isFormat;
-	Head = readFile("drzave.txt");
-	if (Head == NULL) {
+	Root = readFile("drzave.txt");
+	if (Root == NULL) {
 		return -1;
 	}
 
-	printDataBase(Head);
+	printDataBase(Root);
 
 	while (1) {
 		printf("\nUpisi ime drzave pa broj stanovnika ");
@@ -78,12 +82,15 @@ int main() {
 		isFormat = sscanf(buffer, "%s %d\n", name, &population);
 		if (isFormat != 2) {
 			printf("Wrong input\n");
+			continue;
 		}
 		if (population <= 0) {
-			return 0;
-		}
-		findsCites(Head, name, population);
+			break;
+		}else
+			findsCites(Root, name, population);
 	}
+	deleteTree(Root);
+
 	return 0;
 }
 
@@ -150,7 +157,7 @@ City* readFileCity(char* filename) {
 			return NULL;
 		}
 
-		while (temp->next != NULL && temp->next->population > population)
+		while (temp->next != NULL && temp->next->population < population)
 			temp = temp->next;
 		Node->next = temp->next;
 		temp->next = Node;
@@ -181,20 +188,17 @@ TreeCountry* createCountry(char* name, char * filename) {
 TreeCountry* createBranch(TreeCountry* root, char * countryName, char * filename) {
 	if (root == NULL) {
 		root = createCountry(countryName, filename);
-		return root;
 	}
 	else if (strcmp(countryName, root->name) < 0) {
 		if (root->left == NULL) {
 			root->left = createCountry(countryName, filename);
-			return root;
-		}
+		}else
 		createBranch(root->left, countryName, filename);
 	}
 	else if (strcmp(countryName, root->name) > 0) {
 		if (root->right == NULL) {
 			root->right = createCountry(countryName, filename);
-			return root;
-		}
+		}else
 		createBranch(root->right, countryName, filename);
 	}
 	return root;
@@ -216,10 +220,10 @@ void printDataBase(TreeCountry* root) {
 	if (root == NULL) {
 		return root;
 	}
+	printDataBase(root->left);
 	printf("\n------------------------\n");
 	printf("%-30s\n", root->name);
 	printCityList(root->cities);
-	printDataBase(root->left);
 	printDataBase(root->right);
 }
 void printCityList(City* Head) {
@@ -233,7 +237,12 @@ void printCityList(City* Head) {
 
 void findsCites(TreeCountry* root, char* name, int population) {
 	
-	if (strcmp(name, root->name) < 0) {
+	if (root == NULL) { 
+		printf("That country doesn't exits here\n");
+		return; 
+	}
+
+	else if (strcmp(name, root->name) < 0) {
 		findsCites(root->left, name, population);
 	}
 	else if(strcmp(name, root->name) > 0){
@@ -243,17 +252,31 @@ void findsCites(TreeCountry* root, char* name, int population) {
 		printf("\nYour choise was : %s\n", name);
 		printCities(root->cities, population);
 	}
-	else {
-		printf("That country doesn't exits here\n");
-		return;
-	}
 
 	return;
 }
 void printCities(City* Head, int population) {
 	
-	while (Head != NULL && Head->population > population) {
-		printf("%-30s %d\n", Head->name, Head->population);
+	while (Head != NULL) {
+		if(Head->population > population)
+			printf("%-30s %d\n", Head->name, Head->population);
 		Head = Head->next;
+	}
+}
+
+void deleteTree(TreeCountry* root) {
+	if (root == NULL) return;
+	deleteTree(root->left);
+	deleteTree(root->right);
+	deleteList(root->cities);
+	free(root);
+	return;
+}
+void deleteList(City* Head) {
+	City* temp = Head->next;
+	while (temp != NULL) {
+		Head->next = temp->next;
+		free(temp);
+		temp = Head->next;
 	}
 }

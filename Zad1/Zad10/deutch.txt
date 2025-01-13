@@ -1,5 +1,5 @@
 Berlin 2700000
 Munich 3000000
 Hamburg 1500000
-Frankfurt 1400000
+Frankfurt 1500000
 Dresden 700000

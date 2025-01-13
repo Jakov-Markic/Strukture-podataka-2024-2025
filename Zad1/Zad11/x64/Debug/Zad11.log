@@ -1,3 +1,4 @@
 ﻿  zad11.c
-MSVCRTD.lib(exe_main.obj) : error LNK2019: unresolved external symbol main referenced in function "int __cdecl invoke_main(void)" (?invoke_main@@YAHXZ)
-C:\Users\User\Documents\Fakultet\Strukture-podataka-2024-2025\Zad1\x64\Debug\Zad11.exe : fatal error LNK1120: 1 unresolved externals
+C:\Users\User\Documents\Fakultet\Strukture-podataka-2024-2025\Zad1\Zad11\zad11.c(281,3): warning C4098: 'printTree_inorder': 'void' function returning a value
+C:\Users\User\Documents\Fakultet\Strukture-podataka-2024-2025\Zad1\Zad11\zad11.c(289,24): warning C4101: 'i': unreferenced local variable
+  Zad11.vcxproj -> C:\Users\User\Documents\Fakultet\Strukture-podataka-2024-2025\Zad1\x64\Debug\Zad11.exe

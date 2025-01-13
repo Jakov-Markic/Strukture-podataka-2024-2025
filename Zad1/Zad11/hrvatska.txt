@@ -1,0 +1,8 @@
+Split 190000
+Zagreb 700000
+Zadar 90000
+Dubrovnik 41000
+Makarska 25000
+Osijek 105000
+Hum 30
+Slavonski Brod 49500

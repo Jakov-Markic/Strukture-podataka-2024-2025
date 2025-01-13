@@ -1,11 +1,13 @@
 ﻿  zad10b.c
-C:\Users\User\Documents\Fakultet\Strukture-podataka-2024-2025\Zad1\Zad10b\zad10b.c(188,15): warning C4133: '=': incompatible types - from 'TreeCountry *' to '_TreeCity *'
-C:\Users\User\Documents\Fakultet\Strukture-podataka-2024-2025\Zad1\Zad10b\zad10b.c(191,20): warning C4133: 'function': incompatible types - from '_TreeCity *' to 'TreeCountry *'
-C:\Users\User\Documents\Fakultet\Strukture-podataka-2024-2025\Zad1\Zad10b\zad10b.c(195,16): warning C4133: '=': incompatible types - from 'TreeCountry *' to '_TreeCity *'
-C:\Users\User\Documents\Fakultet\Strukture-podataka-2024-2025\Zad1\Zad10b\zad10b.c(198,20): warning C4133: 'function': incompatible types - from '_TreeCity *' to 'TreeCountry *'
-C:\Users\User\Documents\Fakultet\Strukture-podataka-2024-2025\Zad1\Zad10b\zad10b.c(217,3): warning C4098: 'printDataBase': 'void' function returning a value
-C:\Users\User\Documents\Fakultet\Strukture-podataka-2024-2025\Zad1\Zad10b\zad10b.c(222,20): warning C4133: 'function': incompatible types - from '_TreeCity *' to 'TreeCountry *'
+C:\Users\User\Documents\Fakultet\Strukture-podataka-2024-2025\Zad1\Zad10b\zad10b.c(194,15): warning C4133: '=': incompatible types - from 'TreeCountry *' to '_TreeCity *'
+C:\Users\User\Documents\Fakultet\Strukture-podataka-2024-2025\Zad1\Zad10b\zad10b.c(196,20): warning C4133: 'function': incompatible types - from '_TreeCity *' to 'TreeCountry *'
+C:\Users\User\Documents\Fakultet\Strukture-podataka-2024-2025\Zad1\Zad10b\zad10b.c(200,16): warning C4133: '=': incompatible types - from 'TreeCountry *' to '_TreeCity *'
+C:\Users\User\Documents\Fakultet\Strukture-podataka-2024-2025\Zad1\Zad10b\zad10b.c(202,20): warning C4133: 'function': incompatible types - from '_TreeCity *' to 'TreeCountry *'
+C:\Users\User\Documents\Fakultet\Strukture-podataka-2024-2025\Zad1\Zad10b\zad10b.c(221,3): warning C4098: 'printDataBase': 'void' function returning a value
 C:\Users\User\Documents\Fakultet\Strukture-podataka-2024-2025\Zad1\Zad10b\zad10b.c(223,20): warning C4133: 'function': incompatible types - from '_TreeCity *' to 'TreeCountry *'
-C:\Users\User\Documents\Fakultet\Strukture-podataka-2024-2025\Zad1\Zad10b\zad10b.c(237,18): warning C4133: 'function': incompatible types - from '_TreeCity *' to 'TreeCountry *'
-C:\Users\User\Documents\Fakultet\Strukture-podataka-2024-2025\Zad1\Zad10b\zad10b.c(240,18): warning C4133: 'function': incompatible types - from '_TreeCity *' to 'TreeCountry *'
+C:\Users\User\Documents\Fakultet\Strukture-podataka-2024-2025\Zad1\Zad10b\zad10b.c(227,20): warning C4133: 'function': incompatible types - from '_TreeCity *' to 'TreeCountry *'
+C:\Users\User\Documents\Fakultet\Strukture-podataka-2024-2025\Zad1\Zad10b\zad10b.c(246,18): warning C4133: 'function': incompatible types - from '_TreeCity *' to 'TreeCountry *'
+C:\Users\User\Documents\Fakultet\Strukture-podataka-2024-2025\Zad1\Zad10b\zad10b.c(249,18): warning C4133: 'function': incompatible types - from '_TreeCity *' to 'TreeCountry *'
+C:\Users\User\Documents\Fakultet\Strukture-podataka-2024-2025\Zad1\Zad10b\zad10b.c(269,17): warning C4133: 'function': incompatible types - from '_TreeCity *' to 'TreeCountry *'
+C:\Users\User\Documents\Fakultet\Strukture-podataka-2024-2025\Zad1\Zad10b\zad10b.c(270,17): warning C4133: 'function': incompatible types - from '_TreeCity *' to 'TreeCountry *'
   Zad10b.vcxproj -> C:\Users\User\Documents\Fakultet\Strukture-podataka-2024-2025\Zad1\x64\Debug\Zad10b.exe

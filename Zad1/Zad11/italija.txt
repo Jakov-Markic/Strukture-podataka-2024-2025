@@ -1,0 +1,5 @@
+Rim 2500000
+Milan 2100000
+Napoli 1900000
+Palermo 730000
+Venecija 670000
