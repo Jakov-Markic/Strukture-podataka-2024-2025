@@ -1,4 +1,4 @@
 ﻿  zad9.c
 C:\Users\User\Documents\Fakultet\Strukture-podataka-2024-2025\Zad1\Zad9\zad9.c(50,8): warning C4244: 'function': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\User\Documents\Fakultet\Strukture-podataka-2024-2025\Zad1\Zad9\zad9.c(171,1): warning C4715: 'findMin': not all control paths return a value
+C:\Users\User\Documents\Fakultet\Strukture-podataka-2024-2025\Zad1\Zad9\zad9.c(172,1): warning C4715: 'findMin': not all control paths return a value
   Zad9.vcxproj -> C:\Users\User\Documents\Fakultet\Strukture-podataka-2024-2025\Zad1\x64\Debug\Zad9.exe

@@ -112,7 +112,7 @@ Country* readFile(char* filename) {
 	while (!feof(fp)) {
 		temp = &Head;
 		fgets(buffer, BUFFER_SIZE, fp);
-		isFormat = sscanf(buffer, "%[^0-9] %s\n", countryName, countryFileName);
+		isFormat = sscanf(buffer, "%s %s\n", countryName, countryFileName);
 
 		if (isFormat != 2) {
 			printf("Wrong file format\n");
